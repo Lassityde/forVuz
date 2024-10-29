@@ -1,0 +1,46 @@
+CREATE TABLE Applicant_Hub (
+    Applicant_ID INT PRIMARY KEY,
+    Load_Date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Record_Source VARCHAR(255)
+);
+
+CREATE TABLE License_Hub (
+    License_ID INT PRIMARY KEY,
+    Load_Date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Record_Source VARCHAR(255)
+);
+
+CREATE TABLE Applicant_License_Link (
+    Applicant_ID INT,
+    License_ID INT,
+    Application_Date DATETIME,
+    Load_Date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Record_Source VARCHAR(255),
+    PRIMARY KEY (Applicant_ID, License_ID),
+    FOREIGN KEY (Applicant_ID) REFERENCES Applicant_Hub(Applicant_ID),
+    FOREIGN KEY (License_ID) REFERENCES License_Hub(License_ID)
+);
+
+CREATE TABLE Applicant_Satellite (
+    Applicant_ID INT,
+    Full_Name VARCHAR(255),
+    Date_of_Birth DATE,
+    Address VARCHAR(255),
+    Phone_Number VARCHAR(20),
+    Load_Date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Record_Source VARCHAR(255),
+    PRIMARY KEY (Applicant_ID, Load_Date),
+    FOREIGN KEY (Applicant_ID) REFERENCES Applicant_Hub(Applicant_ID)
+);
+
+CREATE TABLE License_Satellite (
+    License_ID INT,
+    License_Type VARCHAR(50),
+    Issue_Date DATE,
+    Expiration_Date DATE,
+    Status VARCHAR(50),
+    Load_Date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Record_Source VARCHAR(255),
+    PRIMARY KEY (License_ID, Load_Date),
+    FOREIGN KEY (License_ID) REFERENCES License_Hub(License_ID)
+);
